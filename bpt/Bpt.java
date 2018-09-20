@@ -1,6 +1,6 @@
 package bpt;
  public class Bpt {
-	public static final int m=5;
+	public static int m=5;
 	public Node root;
 	
 	public Bpt()
@@ -47,6 +47,11 @@ package bpt;
 		
 		for(int i=0;i<cNode.dsz;i++) if(data.equal(cNode.ds[i])) return cNode;
 		return null;
+	}
+	
+	public void printSearchPath(int key)
+	{
+		if(root!=null) root.printSearchPath(key);
 	}
 	
 	public Node getLinkedList()

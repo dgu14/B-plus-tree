@@ -1,10 +1,12 @@
 package bpt;
  public class Data {
 	public int d;
+	public int rd;
 	
 	public Data() {}
 	public Data(int d) { this.d=d; }
-	public Data(Data data){ this.d=data.d; }
+	public Data(int d, int rd) { this.d=d; this.rd=rd; }
+	public Data(Data data){ this.d=data.d; this.rd=data.rd; }
 	
 	public boolean isSmallerThan(Data data)
 	{

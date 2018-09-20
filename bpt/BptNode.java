@@ -3,9 +3,23 @@ public class BptNode extends Node {
 	public int csz;
 	public Element[] els;
 	
+	public int[] elseln;
+	
+	public String convertFileFormat()
+	{
+		String ret="INTERNAL " + ndn + " " + (pElem!=null?pElem.eln:-1) + " " + csz + " ";
+		for(int i=0;i<=csz;i++)
+		{
+			ret+=els[i].eln + " ";
+		}
+		
+		return ret;
+	}
+	
 	public BptNode()
 	{
 		this.csz=0; els=new Element[Bpt.m+1]; 
+		elseln=new int[Bpt.m+1];
 	}
 	
 	public BptNode getLeftCNode()
@@ -162,5 +176,26 @@ public class BptNode extends Node {
 		els[csz].c.print();
 		
 		System.out.print(")");
+	}
+	
+	public void printSearchPath(int key)
+	{
+		for(int i=1;i<=csz;i++)
+		{
+			if(i!=1) System.out.print(",");
+			System.out.print(els[i].k.d);
+		}
+		System.out.println();
+		
+		for(int i=1;i<=csz;i++)
+		{
+			if(key<els[i].k.d)
+			{
+				els[i-1].c.printSearchPath(key);
+				return;
+			}
+		}
+		
+		els[csz].c.printSearchPath(key);
 	}
 }

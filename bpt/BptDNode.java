@@ -4,6 +4,19 @@ public class BptDNode extends Node{
 	public Data[] ds;
 	public BptDNode l, r;
 	
+	public int lndn, rndn;
+	
+	public String convertFileFormat()
+	{
+		String ret="EXTERNAL " + ndn + " " + (pElem!=null?pElem.eln:-1) + " " + dsz + " " + (l!=null?l.ndn:-1) + " " + (r!=null?r.ndn:-1) + " ";
+		for(int i=0;i<dsz;i++)
+		{
+			ret+=ds[i].d + " " + ds[i].rd + " ";
+		}
+		
+		return ret;
+	}
+	
 	public BptDNode()
 	{
 		l=null; r=null; ds=new Data[Bpt.m+1]; dsz=0; 
@@ -148,5 +161,19 @@ public class BptDNode extends Node{
 		}
 		
 		System.out.print(")");
+	}
+	
+	public void printSearchPath(int key) 
+	{
+		for(int i=0;i<dsz;i++)
+		{
+			if(ds[i].d==key)
+			{
+				System.out.println(ds[i].rd);
+				return;
+			}
+		}
+		
+		System.out.println("NOT FOUND");
 	}
 }

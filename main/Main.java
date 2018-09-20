@@ -1,43 +1,49 @@
 package main;
- import java.util.Random;
- import java.util.Scanner;
- import bpt.*;
- public class Main {
- 	public static void main(String[] args)
+import bpt.*;
+public class Main {
+ 	public static void main(String[] args) 
 	{
- 		Scanner sc=new Scanner(System.in);
-		Bpt bpt=new Bpt();
-		Data inserted=new Data(); 	
-		
-		final int MAX_N=(int) 1e6;
-		try {
-			String cmd;
-			while(true)
-			{
-				System.out.println("¸í·É: insert,delete,search (ex insert 7, delete 5, search 3), 'quit' for quit");
-				cmd = sc.next(); if(cmd.equals("quit")) break;
-				inserted.d=Integer.parseInt(sc.next()); 
-				
-				if(cmd.equals("insert")){
-					bpt.insert(inserted);
-					bpt.print();
-					bpt.printLinkedList();
-				}
-				else if(cmd.equals("delete"))
-				{
-					bpt.delete(inserted);
-					bpt.print();
-					bpt.printLinkedList();
-				}
-				else if(cmd.equals("search"))
-				{
-					BptDNode t=bpt.search(inserted);
-					if(t==null) System.out.println("No");
-					else System.out.println("Yes");
-				}
-			}
-		} catch(Exception e) {}
-		
-		System.out.println("done");	
+ 		try
+ 		{
+ 			if(args[0].equals("-c"))
+ 			{
+ 				// create java -jar bptree -c index.dat 8
+ 				FileController.create(Integer.parseInt(args[2]), args[1]);
+ 			}
+ 			else if(args[0].equals("-i"))
+ 			{
+ 				// insert 
+ 				Bpt bpt=FileController.read(args[1]);
+ 				FileController.transferDataToBpt(bpt, args[2]);
+ 				FileController.write(bpt, args[1]);
+ 			}
+ 			else if(args[0].equals("-d"))
+ 			{
+ 				// delete
+ 				Bpt bpt=FileController.read(args[1]);
+ 				FileController.removeDataToBpt(bpt, args[2]);
+ 				FileController.write(bpt, args[1]);
+ 			}
+ 			else if(args[0].equals("-s"))
+ 			{
+ 				// search
+ 				Bpt bpt=FileController.read(args[1]);
+ 				FileController.printDataForKey(bpt, Integer.parseInt(args[2]));
+ 			}
+ 			else if(args[0].equals("-r"))
+ 			{
+ 				// range search
+ 				Bpt bpt=FileController.read(args[1]);
+ 				FileController.rangeSearch(bpt, Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+ 			}
+ 			else
+ 			{
+ 				System.out.println("command doesn't exist... ");
+ 			}
+ 			
+ 		} catch(Exception e)
+ 		{
+ 			System.out.println("file doesn't exist.. plz check the folder.. or command fault, plz check type");
+ 		}
 	}
 }
