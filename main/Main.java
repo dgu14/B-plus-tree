@@ -8,7 +8,7 @@ public class Main {
  			if(args[0].equals("-c"))
  			{
  				// create java -jar bptree -c index.dat 8
- 				FileController.create(Integer.parseInt(args[2]), args[1]);
+ 				FileController.create(Integer.parseInt(args[2])+1, args[1]);
  			}
  			else if(args[0].equals("-i"))
  			{
