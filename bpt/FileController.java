@@ -70,9 +70,9 @@ public class FileController {
 		out.println("META " + Bpt.m + " " + ndcnt + " " + elcnt);
 		
 		// ELEMENT 정보 출력
-		for(int i=0;i<elcnt;i++) out.println(els[i].convertFileFormat());
+		for(int i=0;i<elcnt;i++) out.print(els[i].convertFileFormat() + "\n");
 		// NODE 정보 출력
-		for(int i=0;i<ndcnt;i++) out.println(nds[i].convertFileFormat());
+		for(int i=0;i<ndcnt;i++) out.print(nds[i].convertFileFormat() + "\n");
 		
 		out.close();
 	}
