@@ -177,7 +177,7 @@ public class FileController {
 	public static void rangeSearch(Bpt bpt, int key, int ekey) throws Exception
 	{
 		//BptDNode here=bpt.search(new Data(key, 0));
-		
+		if(bpt.root==null) return;
 		BptDNode here=(BptDNode) bpt.root.findNode(new Data(key,0));
 		
 		if(here==null || key>ekey) return;
