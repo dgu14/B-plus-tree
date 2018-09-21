@@ -18,56 +18,65 @@ package bpt;
 	{
 		if(root==null)
 		{
-			root=new BptDNode();
-			((BptDNode)root).insertData(data);
+			root=new BptDNode(); 					// 데이터가 처음 들어가는 경우는 리프노드이다.
+			((BptDNode)root).insertData(data);		
 		}
 		else
 		{
-			BptDNode cNode=(BptDNode)(root.findNode(data));
-			root=cNode.insertData(data);
+			BptDNode cNode=(BptDNode)(root.findNode(data));	// 이미 트리가 존재하는 경우라면 data가 들어갈 위치를 찾고
+			root=cNode.insertData(data);					// 데이터를 삽입한 다음, 루트가 변했을 수도 있으니 새로운 루트로 변경한다.
 		}
+	}
+	
+	public static int binary_search(BptDNode nd, int key)
+	{
+		int lo=0, hi=nd.dsz-1, mid, ret=-1;
+		while(lo<=hi)
+		{
+			mid=(lo+hi)>>1;
+			if(nd.ds[mid].d==key) { ret=mid; break; }
+			else if(nd.ds[mid].d>key) hi=mid-1;
+			else lo=mid+1;
+		}
+
+		return ret;
 	}
 	
 	public void delete(Data data)
 	{
-		if(root==null) return;
+		if(root==null) return;			// 트리가 존재하지 않는 경우
 		
-		BptDNode dNode=search(data);
-		if(dNode==null) return;
+		BptDNode dNode=(BptDNode) (root.findNode(data));
 		
-		int po = 0;
-		for(int i=0;i<dNode.dsz;i++) if(dNode.ds[i].equal(data)) { po=i; break; }
+		int po = binary_search(dNode, data.d);
+		if(po==-1) return ;				// 삭제할 원소가 없는 경우
 		
 		root=dNode.deleteData(po);
 	}
-	
-	public BptDNode search(Data data)
-	{
-		BptDNode cNode=(BptDNode) (root.findNode(data));
-		
-		for(int i=0;i<cNode.dsz;i++) if(data.equal(cNode.ds[i])) return cNode;
-		return null;
-	}
-	
+
 	public void printSearchPath(int key)
 	{
+		// -s 연산 지원
 		if(root!=null) root.printSearchPath(key);
 	}
 	
 	public Node getLinkedList()
 	{
+		// 디버그 용
 		if(root!=null) return root.getLinkedList();
 		return null;
 	}
 	
 	public void print()
 	{
+		// 디버그용 
 		if(root!=null) root.print();
 		System.out.println();
 	}
 	
 	public void printLinkedList()
 	{
+		// 디버그용
 		BptDNode list=(BptDNode)getLinkedList();
 		
 		while(list!=null)

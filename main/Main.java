@@ -1,4 +1,6 @@
 package main;
+import java.util.Scanner;
+
 import bpt.*;
 public class Main {
  	public static void main(String[] args) 
@@ -8,7 +10,7 @@ public class Main {
  			if(args[0].equals("-c"))
  			{
  				// create java -jar bptree -c index.dat 8
- 				FileController.create(Integer.parseInt(args[2])+1, args[1]);
+ 				FileController.create(Integer.parseInt(args[2])+1, args[1]); 
  			}
  			else if(args[0].equals("-i"))
  			{
@@ -35,6 +37,13 @@ public class Main {
  				// range search
  				Bpt bpt=FileController.read(args[1]);
  				FileController.rangeSearch(bpt, Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+ 			}
+ 			else if(args[0].equals("-p"))
+ 			{
+ 				 // print in-order tree
+ 				Bpt bpt=FileController.read(args[1]);
+ 				bpt.print();
+ 				bpt.printLinkedList();
  			}
  			else
  			{

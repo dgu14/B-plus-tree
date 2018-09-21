@@ -470,7 +470,7 @@ public class Bpt {
 		}
 	}
 	
-	public static final int m=5;
+	public static final int m=30;
 	public Node root;
 	
 	public Bpt()

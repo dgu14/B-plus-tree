@@ -7,17 +7,18 @@ import java.io.PrintWriter;
 
 public class FileController {
 
-	static int ndcnt;
-	static int elcnt;
-	static Node[] nds;
-	static Element[] els;
-	static String tokens[];
+	static int ndcnt;			// 총 노드의 수 (리프노드 + 내부노드)
+	static int elcnt;			// 총 Element의 수 (내부노드의 Elements)
+	static Node[] nds;			// 노드의 프리-오더 순으로 저장한 배열
+	static Element[] els;		// Element의 프리-오더순으로 저장한 배열
+	static String tokens[];		// make_token함수를 썼을 때, tokenized 된 데이터들이 자동으로 들어가는 배열.
 	
 	public FileController()
 	{
 		
 	}
 	
+	// dfs는 트리 순회를 통해서 노드 카운터와 Element 카운터를 세는 함수이다.
 	public static void dfs(Node rt)
 	{
 		if(rt==null) return ;
@@ -33,6 +34,8 @@ public class FileController {
 		}
 	}
 	
+	// dfs2는 트리 순회를 통해서 노드배열과 Element배열에 저장하는 함수이다.
+	// dfs와 나눈 이유는 배열의 크기를 할당할 때, 그 크기를 모르기 때문이다.
 	public static void dfs2(Node rt)
 	{
 		if(rt==null) return;
@@ -52,6 +55,7 @@ public class FileController {
 	
 	public static void create(int m, String fname) throws Exception
 	{
+		// 최대 차수 m인 b+tree를 fname을 가지는 파일을 만들어서 저장한다. (Overwrite)
 		Bpt.m=m;
 		PrintWriter out = new PrintWriter(new FileOutputStream(fname, false));
 		out.println("META " + Bpt.m + " 0 0");
@@ -79,6 +83,7 @@ public class FileController {
 	
 	public static int makeToken(String str, char delim)
 	{
+		// delim을 기준으로 string을 나눈다. tokens 전역배열에 저장.
 		if(str==null) return 0;
 		int c=0; String cstr="";
 		
@@ -151,6 +156,7 @@ public class FileController {
 	
 	public static void transferDataToBpt(Bpt bpt, String fname) throws Exception
 	{
+		// -i 명령어 처리.
 		BufferedReader in = new BufferedReader(new FileReader(fname));
 		tokens=new String[3];
 
@@ -160,6 +166,7 @@ public class FileController {
 	
 	public static void removeDataToBpt(Bpt bpt, String fname) throws Exception
 	{
+		// -d 명령어 처리
 		BufferedReader in = new BufferedReader(new FileReader(fname));
 		tokens=new String[3];
 
@@ -171,12 +178,13 @@ public class FileController {
 	
 	public static void printDataForKey(Bpt bpt, int key) throws Exception
 	{
+		// -s 명령어 처리
 		bpt.printSearchPath(key);
 	}
 	
 	public static void rangeSearch(Bpt bpt, int key, int ekey) throws Exception
 	{
-		//BptDNode here=bpt.search(new Data(key, 0));
+		// -r 명령어 처리
 		if(bpt.root==null) return;
 		BptDNode here=(BptDNode) bpt.root.findNode(new Data(key,0));
 		
@@ -204,6 +212,7 @@ public class FileController {
 	
 	public static Bpt read(String fname) throws Exception
 	{
+		// bpt를 파일로 부터 읽는 함수.
 		BufferedReader in = new BufferedReader(new FileReader(fname));
 		tokens=new String[10000];
 		
@@ -235,6 +244,7 @@ public class FileController {
 			}
 		}
 	
+		// 노드배열의 연결 상태들을 재정의 한다.
 		for(int i=0;i<ndcnt;i++)
 		{
 			if(nds[i] instanceof BptNode)
@@ -261,6 +271,7 @@ public class FileController {
 			}
 		}
 		
+		// Element배열의 연결 상태들을 재정의 한다.
 		for(int i=0;i<elcnt;i++)
 		{
 			if(els[i].cndn!=-1) els[i].c=nds[els[i].cndn]; else els[i].c=null;

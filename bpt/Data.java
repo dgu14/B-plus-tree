@@ -1,7 +1,7 @@
 package bpt;
  public class Data {
-	public int d;
-	public int rd;
+	public int d;		// key
+	public int rd;		// value
 	
 	public Data() {}
 	public Data(int d) { this.d=d; }
